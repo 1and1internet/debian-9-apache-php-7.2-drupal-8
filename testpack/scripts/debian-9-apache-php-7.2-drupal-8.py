@@ -14,7 +14,7 @@ class Test1and1Image(Test1and1Common):
             "changed state to",
             "executing /hooks/supervisord-pre.d/40_drupal_setup"
         ]
-        container_logs = self.container.logs().decode('utf-8')
+        container_logs = self.logs()
         for expected_log_line in expected_log_lines:
             self.assertTrue(
                 container_logs.find(expected_log_line) > -1,
@@ -24,7 +24,7 @@ class Test1and1Image(Test1and1Common):
     def test_drupal(self):
         time.sleep(5)
         driver = self.getChromeDriver()
-        driver.get("http://%s:8080/" % (Test1and1Image.container_ip))
+        driver.get("%s" % (Test1and1Image.endpoint))
         self.assertTrue(
             driver.title.find('Choose language') > -1,
             msg="Failed to find installation page"
